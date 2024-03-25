@@ -1,4 +1,11 @@
-
+def flatten_list(lst):
+    flattened = []
+    for item in lst:
+        if isinstance(item, list):
+            flattened.extend(flatten_list(item))
+        else:
+            flattened.append(item)
+    return flattened
 
 def is_even(bits):
     #takes a bitsream and returns true if even otherwise false
@@ -39,6 +46,7 @@ def encodeHAM74(b):
         if is_even([b[1+i*4],b[2+i*4],b[3+i*4]]) == True:
             tempbitstream[3] = 0
         c.append(tempbitstream)
+        c = flatten_list(c)
     return c 
 
 def encodeHAM1511(b): 
@@ -57,13 +65,65 @@ def encodeHAM1511(b):
         if is_even(b[4:]) == True:
             tempbitstream[7]=0
         c.append(tempbitstream)
+        c = flatten_list(c)
     return c 
 
 def decodeHAM74(c): 
-    pass
-
+    decoded_bits = []
+    for i in range(int(len(c)/7)):
+        keybits = [0,0,0]
+        if is_even([c[i*7],c[2+i*7],c[4+i*7],c[6+i*7]]) == False:
+            keybits[0] = 1
+        if is_even([c[1+i*7],c[2+i*7],c[5+i*7],c[6+i*7]]) == False:
+            keybits[1] = 1
+        if is_even([c[3+i*7],c[2+i*7],c[4+i*7],c[6+i*7]]) == False:
+            keybits[2] = 1
+        if keybits == [0,0,1]:
+            if c[i*7] == 1:
+                c[i*7] = 0
+            else:
+                c[i*7] = 1
+        if keybits == [0,1,0]:
+            if c[1+ i*7] == 1:
+                c[1+i*7] = 0
+            else:
+                c[1+i*7] = 1
+        if keybits == [0,1,1]:
+            if c[2+i*7] == 1:
+                c[2+i*7] = 0
+            else:
+                c[2+i*7] = 1
+        if keybits == [1,0,0]:
+            if c[3+i*7] == 1:
+                c[3+i*7] = 0
+            else:
+                c[3+i*7] = 1
+        if keybits == [1,0,1]:
+            if c[4+i*7] == 1:
+                c[4+i*7] = 0
+            else:
+                c[4+i*7] = 1
+        if keybits == [1,1,0]:
+            if c[5+i*7] == 1:
+                c[5+i*7] = 0
+            else:
+                c[5+i*7] = 1
+        if keybits == [1,1,1]:
+            if c[6+i*7] == 1:
+                c[6+i*7] = 0
+            else:
+                c[6+i*7] = 1
+        decoded_bits.append([c[2+i*7],c[4+i*7],c[5+i*7],c[6+i*7]])
+    return flatten_list(decoded_bits)
 def decodeHAM1511(c): 
     pass
 
-print(encodeHAM74([0,1,1,0]))
-print(encodeHAM1511([1,1,0,0,1,0,0,1,0,1,0]))
+print("hamming code: "+str(encodeHAM74([0,1,1,0])))
+print("bits: "+ str(decodeHAM74(encodeHAM74([0,1,1,0]))))
+print("hamming code: "+str(encodeHAM74([0,0,0,0])))
+print("bits: "+ str(decodeHAM74(encodeHAM74([0,0,0,0]))))
+print("hamming code: "+str(encodeHAM74([1,1,1,1])))
+print("bits: "+ str(decodeHAM74(encodeHAM74([1,1,1,1]))))
+print("hamming code: "+str(encodeHAM74([0,1,0,1])))
+print("bits: "+ str(decodeHAM74(encodeHAM74([0,1,0,1]))))
+#print(encodeHAM1511([1,1,0,0,1,0,0,1,0,1,0]))
