@@ -143,7 +143,7 @@ def decodeHAM1511(c):
                 c[binary_to_decimal(keybits)-1] = 0
             else:
                 c[binary_to_decimal(keybits)-1] = 1
-        decoded_bits.append([c])
+        decoded_bits.append([c[2],c[4],c[5],c[6],c[8],c[9],c[10],c[11],c[12],c[13],c[14]])
     return flatten_list(decoded_bits)
 """
 print("hamming code: "+str(encodeHAM74([0,1,1,0])))
