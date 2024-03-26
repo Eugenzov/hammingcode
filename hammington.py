@@ -155,10 +155,6 @@ print("hamming code: "+str(encodeHAM74([0,1,0,1])))
 print("bits: "+ str(decodeHAM74(encodeHAM74([0,1,0,1]))))
 print(encodeHAM1511([1,1,0,0,1,0,0,1,0,1,0]))
 """ 
-"""
-print("hamming code: "+str(encodeHAM74([0,0,0,0])))
-print("bits: "+ str(decodeHAM74([0,0,0,0,0,0,1])))
-"""
 
-print (encodeHAM1511([0,0,0,0,0,0,0,0,0,0,0]))
-print(decodeHAM1511([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]))
+print("hamming code: "+str(encodeHAM74([0,0,0,0,0,0,0,0])))
+print("bits: "+ str(decodeHAM74([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])))
